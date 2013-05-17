@@ -1,0 +1,1 @@
+var queryServer = "query.php";

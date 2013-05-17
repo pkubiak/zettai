@@ -1,0 +1,217 @@
+
+
+
+
+
+#leftpanel{
+		width:300px;
+		height:100%;
+		position:absolute;
+		z-index:5;
+		padding-left:0px;
+		overflow:hidden;
+}
+
+
+div.inner{
+	padding:6px;
+	border-radius:4px;
+	background:rgba(255,255,255,1.0);
+	overflow:hidden;
+}
+div.block{
+	margin:10px 10px;
+	border-radius:8px;
+	background:rgba(0,0,0,0.4);
+	padding:6px;
+}
+
+
+
+h2{border-bottom:1px dashed #ccc;margin:6px 0;padding:0;padding-bottom:4px}
+h3{margin:0;font-size:14px;}
+
+
+
+/*************************
+ * General
+ *************************/
+html,body{margin:0;width:100%;height:100%;}
+body{font-family: 'ABeeZee', sans-serif;}
+
+hr.dashed{border:0;border-bottom:1px dashed #ccc;margin:6px 0;padding:0;padding-bottom:4px}
+
+.hidden .hiddable{display:none;}
+.spinner{background:url(gfx/spinner.gif) center center no-repeat;}/*wiatraczek*/
+.clear{width:0;height:0;border:0;padding:0;margin:0;visibility:hidden;clear:both;}
+iframe{margin:0;padding:0;position:absolute;left:0;top:0}
+
+/*************************
+ * Forms
+ *************************/
+ 
+ input, textarea{font-family: 'ABeeZee', sans-serif;}
+ input, textarea{border:1px solid #444;border-radius:3px;line-height:18px;font-size:12px;padding:2px;box-shadow:1px 1px #ccc;}
+ 
+/*************************
+ * StateBox
+ *************************/
+ 
+#state-box{
+	position:absolute;
+	right:0;
+	top:0;
+}
+
+
+/*************************
+ * SearchBox
+ *************************/
+
+#search-results{height:240px;overflow:scroll;overflow-x:hidden;}
+#search-results ul{list-style:none;margin:0;margin-bottom:8px;margin-top:4px;padding:0;padding-left:8px}
+#search-results li{font-size:13px;padding-left:38px;background:left center url(gfx/map.png) no-repeat;}
+small{font-size:10px;}
+#search-results a{text-decoration:none;color:black}
+#search-results a:hover{text-decoration:underline;color:black}
+
+
+
+#search-pager{padding-top:4px;text-align:center;}
+#search-button-prev{float:left;visibility:hidden}
+#search-button-curr{font-weight:bold;}
+#search-button-next{float:right;visibility:hidden}
+
+#search-button{float:right;width:60px;text-align:center;}
+#search-input{width:auto;width:184px;vertical-align:middle;float:left;}
+/* Strzałki po prawej */
+#search-box h2 span{padding-right:10px;float:right;}
+#search-box h2 span:before{content:"⇊";}
+#search-box.hidden h2 span:before{content:"⇈";}
+
+/*************************
+ * ToolsBox
+ *************************/
+#tools-box{
+	width:auto;
+	height:60px;
+	position:absolute;
+	top:0;
+	left:0;
+	padding-left:290px;
+	display:none;
+}
+
+#tools-box .inner{float:left;margin-right:6px;padding:0;}
+
+#tools-box a{display:block;width:32px;height:32px;}
+#tools-box a:hover{background-color:lime;}
+#tools-box a.selected{background-color:red;}
+#tools-icon-hand{background:url(gfx/icon-hand.png) center center no-repeat;}
+#tools-icon-poi{background:url(gfx/icon-poi.png) center center no-repeat;}
+#tools-icon-path{background:url(gfx/icon-path.png) center center no-repeat;}
+#tools-icon-area{background:url(gfx/icon-area.png) center center no-repeat;}
+
+/*************************
+ * LoginBox
+ *************************/
+
+#login-warning, #register-warning{color:red;font-weight:bold;text-align:center;font-size:10pt;display:none;}
+#close-button{position:absolute;right:-8px;top:-8px;background:url(gfx/close-button.png) center center no-repeat;width:29px;height:29px;}
+#register-recaptch{width:442px;height:107px;}
+
+
+/*************************
+ * MapBox
+ *************************/
+ 
+#maps-list{height:240px;overflow:scroll;overflow-x:hidden;}
+#maps-list ul{list-style:none;margin:0;margin-bottom:8px;margin-top:4px;padding:0;padding-left:8px}
+
+#maps-list li{font-size:13px;padding-left:38px;background:left center url(gfx/map.png) no-repeat;border-top:1px dotted #ccc;padding-top:4px;margin-top:3px}
+#maps-list li:first-child{margin-top:0;padding-top:0;border-top:0;}
+small{font-size:10px;}
+#maps-list a{text-decoration:none;color:black}
+#maps-list a:hover{text-decoration:underline;color:black}
+#maps-list h3{font-size:11px;letter-spacing:0px;font-weight:bold;font-family: 'Raleway', sans-serif;}
+
+/* Strzałki po prawej */
+#maps-box h2 span{padding-right:10px;float:right;}
+#maps-box h2 span:before{content:"⇊";}
+#maps-box.hidden h2 span:before{content:"⇈";}
+
+#maps-button-create{float:right;}
+
+#maps-create-desc{width:249px;height:80px;resize:vertical}
+#maps-create-title{width:249px}
+#maps-create-button{float:right;}
+#maps-create-warning{color:red;font-weight:bold;text-align:center;font-size:10pt;display:none;}
+
+
+#maps-create{display:none;}
+#maps-browse{display:none;}
+
+#tags-map{font-size:14px;}
+/*#tags-map-tags a:after{content:" ×";}*/
+#tags-map-tags a:hover{color:red;text-decoration:line-through}
+/*#tags-map-tags a:hover:after{content:"";}*/
+/*#tags-map-tags a:hover:after{text-decoration:none}*/
+/*#tags-map-tags*/
+
+#maps-options{display:none;}
+#maps-spotlight{display:none;}
+
+#maps-spotlight h3{font-size:20px;margin:0;}
+
+#map-spot-desc{font-size:12px;font-style:italic;margin:6px 0;padding-left:8px;padding-right:8px;}
+#map-spot-ctime{padding-left:4px;}
+#map-spot-mtime{padding-left:4px;}
+#map-spot-author{padding-left:4px;margin-right:20px;}
+#map-spot-tags{padding-left:4px;}
+#map-spot-infos{font-size:14px;line-height:150%;}
+#map-spot-infos b{text-transform:uppercase;font-family: 'Raleway', sans-serif;fons-size:12px;}
+
+#map-actions{font-size:12px;display:none;}
+
+#map-import-iframe{margin-top:8px;display:none;}
+#map-import-warning{text-align:center;color:red;font-weight:bold;font-size:12px;display:none;}
+#map-import-iframe iframe{width:190px;margin:0;padding:0;height:30px;position:relative;border:0;}
+#map-import-buttons{width:50px;float:right;height:30px;line-height:15px;text-align:center;padding-right:10px;border-left:1px dashed #ddd;}
+
+/*************************
+ * PoisBox
+ *************************/
+div.map-pois{height:37px;line-height:18px;overflow:hidden;font-size:12px;margin-bottom:4px;}
+div.map-pois div{width:32px;height:37px;margin-right:4px;float:left;}
+.map-pois:hover{background:#ddd;}
+.map-pois a{text-decoration:none;color:black;}
+
+
+/*************************
+ * Popup
+ *************************/
+#poi-popup{display:none;background:#16cc23;position:absolute;padding:4px;border-radius:3px;border:1px solid rgba(0,0,0,0.4);box-shadow:0px 0px 3px rgba(0,0,0,0.8);/*overflow:hidden;*/}
+#poi-inner{display:none;padding:8px;background:white;width:384px;border-radius:3px;overflow:hidden}
+#poi-anchor{height:9px;width:32px;background:url(gfx/pins/16cc23.png) 0px -28px;position:absolute;bottom:-9px;left:100px}
+
+#poi-inner p{text-align:justify;margin:0;}
+#poi-inner b{font-size:12px;}
+
+#poi-marker-icon{display:inline-block;width:55px;height:64px;background:url(gfx/pins/16cc23.png);background-size:auto 64px;margin-top:8px;}
+#poi-marker{background-color:white;width:80px;height:80px;border-left:1px dashed #ddd;border-bottom:1px dashed #ddd;float:right;margin-left:4px;text-align:center;outline:5px solid white}
+
+#poi-close{position:absolute;right:-10px;top:-10px;background:url(gfx/close-button.png) center center no-repeat;width:29px;height:29px;}
+
+#poi-edit{padding:8px;background:white;width:384px;border-radius:3px;overflow:hidden}
+#poi-edit input{width:376px;height:30px;font-size:24px;margin-bottom:8px;}
+#poi-edit textarea{width:376px;font-size:16px;height:140px;resize:vertical}
+#poi-edit div{font-size:16px;font-weight:bold}
+
+/*************************
+ * PinsBox
+ *************************/
+/*#pins-box{width:340px;height:400px;border:1px dashed black;background:white;position:absolute;left:40%;top:100px;z-index:100}*/
+#pins-box{display:none;padding:8px;background:white;width:384px;border-radius:3px;overflow:hidden}
+div.pins-style{width:32px;height:32px;border:2px solid white;outline:1px solid #aaa;float:left;margin-right:6px;}
+#pins-list{height:200px;}
+#pins-list div{width:32px;height:37px;float:left;margin:2px;}

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Zettai - Pin the World</title>
+	<meta charset="utf-8" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+	
+	<script src="src/leaflet.js"></script>
+	<script type="text/javascript" src="src/slimScroll.js"></script>
+	<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+	
+	<script type="text/javascript" src="src/config.js"></script>
+	<script type="text/javascript" src="src/gui.js"></script>
+	<script type="text/javascript" src="src/sha256.js"></script>
+	<script type="text/javascript" src="src/api.js"></script>
+	<script type="text/javascript" src="src/api/api.search.js"></script>
+	<script type="text/javascript" src="src/api/api.login.js"></script>
+	<script type="text/javascript" src="src/api/api.maps.js"></script>
+	<script type="text/javascript" src="src/api/api.pins.js"></script>
+	<script type="text/javascript" src="src/api/api.edit.js"></script>
+	<script type="text/javascript" src="src/custompopup.js"></script>
+	
+	<link href='http://fonts.googleapis.com/css?subset=latin,latin-ext&family=ABeeZee' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Raleway:800' rel='stylesheet' type='text/css'>
+	
+	<!--<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Monda&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Basic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+	
+	<link href='http://fonts.googleapis.com/css?family=Archivo+Black' rel='stylesheet' type='text/css'>-->
+	<link rel="stylesheet" href="leaflet.css" />
+	<!--[if lte IE 8]><link rel="stylesheet" href="http://leafletjs.com/dist/leaflet.ie.css" /><![endif]-->
+	<link rel="stylesheet" href="style.css"/>
+	<link rel="shortcut icon" href="gfx/favicon.png"/>
+</head>
+<body>
+	<div id="leftpanel">
+		<!-- SEARCH-BOX -->
+		<div id="search-box" class="block hidden">
+			<div class="inner">
+				<h2>Search<span></span></h2>
+				<form style="line-height:26px"><input id="search-input"/> <a href="javascript:void(0)" id="search-button">Search</a><hr class="clear"/>
+				<label><input type="checkbox" id="search-titles" checked="checked"/>titles</label> 
+				<label><input type="checkbox" id="search-descriptions" checked="checked"/>descriptions</label> 
+				<label><input type="checkbox" id="search-tags"/>tags</label></form>
+				<div class="hiddable">
+				<hr class="dashed"/>
+				<small><b>results for: "<span id="search-query"></span>"</b></small><br/>
+				<div id="search-results"></div>
+				<div id="search-pager">
+					<a href="javascript:void()" id="search-button-prev">&laquo; less</a>
+					<span id="search-button-curr"></span>
+					<a href="javascript:void(0)" id="search-button-next">more &raquo;</a>
+				</div>
+				</div>
+			</div>
+		</div>
+		<!-- /SEARCH-BOX -->
+		
+		<!-- MAPS-BOX -->
+		<div id="maps-box" class="block">
+			<div class="inner">
+				<h2>Maps<span></span></h2>
+				<div style="font-size: 10pt" id="maps-options">Show maps: <a href="javascript:void(0)" id="maps-button-my">my</a>, <del><a href="javascript:void(0)" id="maps-button-shared">shared</a></del> <a href="javascript:void(0)" id="maps-button-create">+<b>Create map</b></a><hr class="dashed hiddable"/></div>
+				<div class="hiddable">
+					<div id="maps-browse">
+						<div id="maps-list"></div>
+					</div>
+					<div id="maps-create">
+						<div id="maps-create-warning"></div>
+						<h3>Title</h3>
+						<input id="maps-create-title" maxlength="250"/><br/>
+						<h3>Description</h3>
+						<textarea id="maps-create-desc" maxlength="250"></textarea><br/>
+						<!--<div><small style="font-size:12px;letter-spacing:1px;">ROWER, KOT,</small> <input id="maps-create-tags"/></div>-->
+						<label><input type="radio" name="policy" value="private" checked="checked"/>private</label>
+						<label><input type="radio" name="policy" value="public"/>public</label><br/>
+						<h3>Tags</h3>
+						<div id="tags-map"><span id="tags-map-tags"></span> <b><a href="javascript:void(0)" id="maps-tagadd-button">+add</a></b></div>
+						<hr class="dashed"/>
+						<a href="javascript:void(0)" id="maps-cancel-button">&times; Cancel</a> <a href="javascript:void(0)" id="maps-create-button">Proceed &raquo;</a> 
+					</div>
+					<div id="maps-spotlight">
+						<div id="maps-spotlight-content">
+							<h3 id="map-spot-title"></h3>
+							<p id="map-spot-desc"></p>
+							<div id="map-spot-infos">
+								<b>Created:</b> <span id="map-spot-ctime"></span><br/>
+								<b>Modyfied:</b> <span id="map-spot-mtime"></span><br/>
+								<b>Author:</b> <span id="map-spot-author"></span> <b>Views:</b> <span id="map-spot-views"></span> <br/>
+								<b>Tags:</b> <span id="map-spot-tags"></span>
+							</div>
+							<hr class="dashed"/>
+							<div id="map-actions"><a href="javascript:void(0)" id="map-edit-button">edit</a> &curren; <del><a href="javascript:void(0)">share</a></del> &curren; <a href="javascript:void(0)" id="map-delete-button">delete</a> &curren; <del><a href="javascript:void(0)">embed</a></del> &curren; <a href="javascript:void(0)" id="map-import-button">import gpx</a>
+							<div id="map-import-iframe"><div id="map-import-warning"></div><iframe src=""></iframe><div id="map-import-buttons"><a href="javascript:void(0)" id="map-import-submit">Submit</a><br/><a href="javascript:void(0)" id="map-import-cancel">Cancel</a></div></div>
+							<hr class="dashed"/></div>
+							<div id="map-objs">
+							<!--<div class="map-pois"><div style="background:url(gfx/pins/16cc23.png) -320px 0;"></div><a href="javascript:void(0)"><b>Przystań promowowa jakis strasznie długi tekst strasznie długi długi długi</b></a></div>
+							<div class="pois"><div style="background:url(gfx/pins/2e82e8.png) -640px 0;"></div><a href="javascript:void(0)"><b>Krokodyle!!</b></a></div>-->
+							<hr class="clear"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /MAPS-BOX -->
+	</div>
+	
+	<div id="map" style="width: 100%; height: 100%;margin-right:100px;"></div>
+	
+	<!-- TOOLS-BOX -->
+	<div id="tools-box">
+		<div class="block">
+			<div class="inner">
+				<a href="javascript:void(0)" id="tools-icon-hand"></a>
+			</div>
+			<div class="inner">
+				<a href="javascript:void(0)" id="tools-icon-poi"></a>
+			</div>
+			<div class="inner">
+				<a href="javascript:void(0)" id="tools-icon-path"></a>
+			</div>
+			<div class="inner" style="margin-right:0">
+				<a href="javascript:void(0)" id="tools-icon-area"></a>
+			</div><hr class="clear"/>
+		</div>
+	</div>
+	<!-- /TOOLS-BOX -->
+	
+	<!-- LOGIN-BOX -->
+	
+	<div id="state-box"><!--onmouseout="$('.hiddable').css('display','none')"-->
+		<div class="block"  style="position:relative">
+				<a href="javascript:void()" onclick="javascript:loginShowForm(3)" id="close-button"></a>
+			<div class="inner" id="login-panel">
+				<div id="logged-form" style="display:none">
+					<a href="javascript:void(0)" id="logout-button"></a> / <del>Settings</del>
+				</div>
+				<div id="login-form" style="display:none">
+					<form><div id="login-warning"></div>
+					<input id="login-username" value="username" onfocus="if($(this).val()=='username')$(this).val('')" onblur="if($(this).val()=='')$(this).val('username')"/></br>
+					<input id="login-password" value="password"  type="password" onfocus="if($(this).val()=='password')$(this).val('')" onblur="if($(this).val()=='')$(this).val('password')"/><br/>
+					<label><input type="checkbox" id="login-remember"/>Remember me</label> <a href="javascript:void(0)" id="login-button">Login</a></form>
+				</div>
+				
+				<div id="register-form" style="display:none">
+					<div id="register-warning"></div>
+					username: <input id="register-username"/><small>[_0-9a-zA-Z]{3,24}</small><br/>
+					password: <input id="register-password" type="password"/><br/>
+					password: <input id="register-password2" type="password"/><br/>
+					email*: <input id="register-email"/><br/>
+					<div id="register-recaptcha"></div>
+					<!--<img src="https://developers.google.com/recaptcha/images/reCAPTCHA_Sample_White.png"/><br/>-->
+					<!--<img src="https://developers.google.com/recaptcha/images/reCAPTCHA_Sample_Clean.png"/><br/>-->
+					<div style="text-align:center"><a href="javascript:void(0)" id="register-button">Register</a></div>
+					<small>* Used only for password recovery</small>
+				</div>
+				
+				<div id="guess-form">
+					<a href="javascript:void(0)" onclick="javascript:loginShowForm(2)">Register</a> / <a href="javascript:void(0)" onclick="javascript:loginShowForm(1)">Login</a></span>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	<!-- /LOGIN-BOX -->
+	
+	<div id="poi-popup" class="leaflet-zoom-animated">
+		<div id="poi-inner" style="display:none">
+			<div id="poi-marker"><a href="javascript:void(0)" id="poi-marker-icon"></a></div>
+			<h2 id="poi-title">Jakiś tytuł długi bardzo długi tytuł długi</h3>
+			<b>Coordinates: <span id="poi-cords">50&deg; 12' 32'' N&emsp;20&deg; 20' 51'' E</span></b>
+			<p id="poi-desc"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nec metus mi. Morbi vel nibh eu nisi viverra imperdiet id sed magna. Morbi quis orci quis diam adipiscing bibendum. Donec adipiscing ligula pellentesque erat faucibus nec cursus ante p</p>
+			<hr class="dashed" style="clear:both"/>
+			<div id="poi-actions"><a href="javascript:void(0)" id="poi-edit-button">Edit</a> &curren; <a href="javascript:void(0)" id="poi-delete-button">Delete</a></div>
+		</div>
+		<div id="poi-edit">
+			<form onsubmit="javascript:return false">
+				<h3>Title</h3><input/>
+				<h3>Description</h3><textarea></textarea>
+				<div><a href="javascript:void(0)" id="poi-save-button">Save</a> &curren; <a href="javascript:void(0)" id="poi-cancel-button">Cancel</a></div>
+			</form> 
+		</div>
+		
+		<div id="pins-box"><div id="pins-style-list"></div><hr class="clear"/><div id="pins-list"></div><a href="javascript:void(0)" id="pins-list-cancel">Cancel</a></div>
+		<a href="javascript:void(0)" id="poi-close"></a>
+		<div id="poi-anchor"></div>
+		
+	</div>
+	
+	
+	
+	
+	<script>
+		
+		var map = L.map('map', {zoomControl:false});//.setView([0.0,0.0], 16);//.locate({setView:true, maxZoom:18});
+		map.locate({setView: true, maxZoom: 16});
+		//console.debug(L.Control.Zoom(position:'topright'));
+		//{a,b,c}.tile.openstreetmap.org
+		//http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
+		//http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png
+		L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			maxZoom: 18,
+			noWrap: true,
+			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
+		}).addTo(map);
+	
+		L.control.scale().addTo(map);
+
+		/*var myIcon = L.icon({
+			iconUrl: 'gfx/pins/all/museum_science.png',
+			iconSize: [32, 37],
+			iconAnchor: [16, 37],
+			//popupAnchor: [-3, -76],
+			//shadowUrl: 'my-icon-shadow.png',
+			//shadowRetinaUrl: 'my-icon-shadow@2x.png',
+			//shadowSize: [68, 95],
+			//shadowAnchor: [22, 94]
+		});*/
+		/*L.marker([51.5, -0.09], {icon: myIcon}).addTo(map)
+			.bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
+
+		L.circle([51.508, -0.11], 500, {
+			color: 'red',
+			fillColor: '#f03',
+			fillOpacity: 0.5
+		}).addTo(map).bindPopup("I am a circle.");
+
+		L.polygon([
+			[51.509, -0.08],
+			[51.503, -0.06],
+			[51.51, -0.047]
+		]).addTo(map).bindPopup("I am a polygon.");
+
+		
+		var polyline = L.polyline([
+			[51.500,-0.05],
+			[51.49, 0.01],
+			[51.52, -0.01]
+			], {color: 'green'}).addTo(map);
+		*/
+		
+		$(function(){
+			popup = new L.CustomPopup2();
+			popup2 = new L.Popup();
+			//alert(popup);
+			/*function onMapClick(e) {
+				//L.marker(e.latlng, {icon: myIcon}).addTo(map);
+				popup2
+					.setLatLng(e.latlng)
+					.setContent("You clicked the map at " + e.latlng.toString())
+					.openOn(map);
+					
+			}
+
+			map.on('click', onMapClick);*/
+		});
+	</script>
+</body>
+</html>
